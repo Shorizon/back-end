@@ -2,7 +2,8 @@
 
 const express = require("express"); // Access to the Express library
 const cors = require("cors");
-const { goats, nextId } = require("./goats");
+const logger = require("./logger");
+let { goats, nextId } = require("./goats");
 
 const app = express(); // Make a very basic server using Express
 
@@ -10,7 +11,9 @@ const app = express(); // Make a very basic server using Express
 
 //when a requests comes in goes through cors then API. 
 // cors attaches headers to requests.
+app.use(express.json())
 app.use(cors())
+app.use(logger)
 
 app.get("/", (req, res) => {
     res.json({
@@ -30,7 +33,21 @@ app.get("/goats/:id", (req, res) => {
         res.json(goat)
     } else {
         res.status(404)
-.json("no such goat!")
+            .json("no such goat!")
     }
 })
+
+app.post("/goats", (req,res) =>{
+    const newGoat = req.body;
+    newGoat["id"] = nextId;
+    nextId +=1;
+    goats.push(newGoat);
+    console.log(newGoat);
+    res.status(201).json(newGoat);
+
+})
+
+
+
+
 module.exports = app; // Make the server available to other files
