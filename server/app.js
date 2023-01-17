@@ -1,13 +1,16 @@
 // Describes the server/API
 
-const e = require("express");
 const express = require("express"); // Access to the Express library
-
+const cors = require("cors");
 const { goats, nextId } = require("./goats");
 
 const app = express(); // Make a very basic server using Express
 
 // Tell the app what kinds of request to listen for (and how to handle them)
+
+//when a requests comes in goes through cors then API. 
+// cors attaches headers to requests.
+app.use(cors())
 
 app.get("/", (req, res) => {
     res.json({
