@@ -37,17 +37,29 @@ app.get("/goats/:id", (req, res) => {
     }
 })
 
-app.post("/goats", (req,res) =>{
+app.post("/goats", (req, res) => {
     const newGoat = req.body;
     newGoat["id"] = nextId;
-    nextId +=1;
+    nextId += 1;
     goats.push(newGoat);
     console.log(newGoat);
     res.status(201).json(newGoat);
 
 })
 
+app.delete("/goats/:id", (req, res) => {
+    const id = req.params["id"];
+    const exists = goats.filter(g => g["id"] == id).length == 1;
 
+    if (exists) {
 
+        goats = goats.filter(g => g["id"] != id)
+        res.status(204).json("goat deleted!")
+
+    } else {
+        res.status(404)
+            .json("no such goat!")
+    }
+})
 
 module.exports = app; // Make the server available to other files
