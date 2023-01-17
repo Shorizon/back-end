@@ -26,7 +26,8 @@ app.get("/goats/:id", (req, res) => {
     if (goat) {
         res.json(goat)
     } else {
-        res.status(404).json("no such goat!")
+        res.status(404)
+.json("no such goat!")
     }
 })
 module.exports = app; // Make the server available to other files
